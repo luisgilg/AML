@@ -1,0 +1,26 @@
+{
+  "name": "AML",
+  "version": "1.0.0",
+  "description": "Advance Music Library",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luisgilg/AML.git"
+  },
+  "keywords": [
+    "taglib",
+    "nodejs",
+    "music",
+    "collection",
+    "dj"
+  ],
+  "author": "Luis Gil",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/luisgilg/AML/issues"
+  },
+  "homepage": "https://github.com/luisgilg/AML"
+}
