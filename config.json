@@ -1,0 +1,1 @@
+{"collectionPath":"/home/luisgil/Music/AML/collection","boxPath":"/home/luisgil/MeanProjects/AML/box","collectionPattern":"$collectionPath/$artist/$album/$file","failurePattern":"$boxPath/failures/$date/$file"}
