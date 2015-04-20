@@ -11,6 +11,7 @@ var log = bunyan.createLogger(
 	      stream: process.stdout            // log INFO and above to stdout
 	    },
 	    {
+	    	level:'info',
 	      path: logPath  // log ERROR and above to a file
 	    }
 	  ]

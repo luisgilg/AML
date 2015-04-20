@@ -33,7 +33,7 @@ describe('Collection',function(){
 
 	describe('setBoxPath',function(){
 		beforeEach(function(done){
-			var dir = path.join(process.cwd(),'box');
+			var dir ='/home/luisgil/Music/AML/box';
 
 			collection.setBoxPath(dir,function(err){
 				error = err;
@@ -85,6 +85,8 @@ describe('Collection',function(){
 				error = err;
 				validFiles= vFiles;
 				invalidFiles = iFiles;
+
+				//logger.info({valid:vFiles, invalid:iFiles});
 				
 				done();
 			});
@@ -95,6 +97,37 @@ describe('Collection',function(){
 			expect(error).toBe(null);
 			expect(validFiles).not.toBe(null);
 			expect(invalidFiles).not.toBe(null);
+		});
+	});
+
+	/*describe('import copy',function(){
+		beforeEach(function(done){
+			collection.import('/home/luisgil/Music/AML/box',false,function(err){
+				error = err;				
+				done();
+			});
+
+		});
+
+		it('should import ',function(){
+			expect(error).toBe(null);
+		});
+	});*/
+
+
+	describe('import move',function(){
+		beforeEach(function(done){
+			collection.import('/home/luisgil/Music/AML/box',true,true, function(err){
+				error = err;				
+				done();
+			});
+
+		});
+
+		it('should import ',function(){
+			//asmine.getEnv().defaultTimeoutInterval = 999999999999999999;
+
+			expect(error).toBe(null);
 		});
 	});
 

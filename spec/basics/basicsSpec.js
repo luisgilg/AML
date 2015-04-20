@@ -10,7 +10,7 @@ describe("AML Basic", function() {
 	var result=null;
 	var error = null;
 
-	var appDir = process.cwd();
+	var appDir = '/home/luisgil/Music/';
 	var track = path.join(appDir,'tracks/Adam Beyer/Beatport - Adam Beyer\'s Decade Playlist/06 Human Reason (Len Faki Remix).mp3');
 	
 

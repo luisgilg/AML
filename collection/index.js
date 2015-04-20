@@ -1,8 +1,10 @@
 var _ = require('lodash');
 var io = require('../io');
-var fs = require('fs');
+var fs = require('fs-extra');
 var async = require('async');
 var logger = require('../logger');
+var tools = require('../tools');
+var path = require('path');
 
 
 function Collection(){
@@ -41,21 +43,127 @@ function Collection(){
 			});		
 	}
 
-	this.walkBox = function(callbackM){
+	this.walkBox = function(callback,succesDelegate, invalidDelegate){
+		var _this = this;
+
+		return io.Config.load(function(err,conf){
+			if(err) return callback(err);
+			return _this.walk(conf.boxPath, callback,succesDelegate, invalidDelegate);
+		});
+	}
+
+	this.walk = function(dir, callback, succesDelegate, invalidDelegate){
+		return io.File.walk(dir, callback, succesDelegate, invalidDelegate);
+	}
+
+	this.ensureFileName = function(fileName, fromFile, callback){
+		var _this = this;
+
+
+		return fs.stat(fileName,function(err,stat){
+			if (err) {
+				if (err.code=='ENOENT') {
+					return callback(null,fileName,fromFile);
+				}else{
+					return callback(err,fileName,fromFile);
+				}
+			}
+			var p = path.parse(fileName);
+			var testPath = path.join(p.dir,p.name+'_copy'+p.ext);
+			return _this.ensureFileName(testPath,fromFile,callback);
+		});
+	}
+
+	this.copyWithPattern = function(config, move, items, patternName, callback){
+		var _this = this;
+
+		var filesOk = [];
+		var filesErr = [];
+
+		return async.forEach(items,function(file, cb){					
+			var fullObj = tools.completeFormater(config,file);					
+			var destPath = tools.format(config[patternName],fullObj);
+
+			return _this.ensureFileName(destPath,fullObj.fullPath,function(err,fileName,fromFile){
+				if (err) {
+					return cb(err);
+				};
+				if (move) {
+					return fs.move(fromFile, fileName, function(err){							
+						if (err){
+							filesErr.push(file);
+							return cb(err);
+						};
+						var outPath = path.parse(fileName);
+						var outFile = _.merge(file,outPath);
+						outFile.fullPath = fileName;
+
+
+						filesOk.push(outFile);
+						return cb(null);
+					});
+
+				};
+				return fs.copy(fromFile, fileName, function(err){							
+					if (err){
+						filesErr.push(file);
+						return cb(err);
+					};
+					var outPath = path.parse(fileName);
+					var outFile = _.merge(file,outPath);
+					outFile.fullPath = fileName;
+
+					filesOk.push(outFile);
+					return cb(null);
+				});
+			});
+
+		},
+		function(err){
+			if (err) return callback(err);
+			return callback(null,{ok: filesOk, error: filesErr});
+		});
+	}
+
+	this.import = function(dir,move, moveInvalid, callback){
+		var _this = this;
+		var config = {};
+		
 		return async.waterfall([
-			function(callbackA){
-				return io.Config.load(callbackA);
+			function(callback){
+				return io.Config.load(callback);
 			},
-			function(conf, callbackB){
-				return io.File.walk(conf.boxPath,callbackB); 
+			function(conf, callback){
+				config = conf;
+				return _this.walk(dir, callback);
+			},
+			function(valids, invalids, callback){
+				//return console.log(valids);
+				return async.parallel({
+					invalid : function(callback){
+						if (moveInvalid){
+							return _this.copyWithPattern(config, move, invalids, 'failurePattern',callback);
+						}
+						return callback({ok:[],error:[]})
+					},
+					valid : function(callback){
+						return _this.copyWithPattern(config,move, valids, 'collectionPattern',callback);						
+					}
+				}, function(err,result){
+					if (err) {
+						return callback(err);
+					};
+					return callback(null, result);
+				});
+
+
 			}],
-			function(err,valid,invalid){
-				
-
-				if(err) return callback(err);
-				return callbackM(null,valid,invalid);
-			});		
-
+			function(err,result){
+				if (err){return callback(err);}
+				logger.info(result);
+				return callback(null,result);
+			});
+		
 	}
 }
 
