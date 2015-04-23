@@ -20,11 +20,24 @@ var _getById = function(id,callback){
 	return source.findById(id, callback);
 }
 
+var _getAll = function(callback) {
+	var source = models.Track;
+	return source.find({}, callback);
+}
+
 
 exports.create = function(req, res) {
 
 }
 
+exports.index = function(req,res){
+	_getAll(function(err,items){
+		if (err) {return res.sendStatus(500);}
+		if (!items) {return res.sendStatus(404);}
+
+		return res.status(200).json(items);		
+	});
+}
 exports.stream = function(req, res) {
 
 	var id = req.params.id;

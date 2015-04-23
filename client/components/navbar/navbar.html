@@ -1,0 +1,88 @@
+<div ng-controller="NavbarCtrl">
+<div class="container">
+  <audio id="audioElement" ng-hide="true" controls preload="none">
+    
+  </audio>
+  <div class="row">
+    <div class="btn-group btn-group-sm navbar-brand col-xs-5 col-sm-2" aria-label="player actions" role="group">
+
+      <button type="button" ng-disabled = "!canPlay" aria-label="prev" class="btn btn-default" ng-click="prev()">
+        <i class="glyphicon glyphicon-step-backward" aria-hidden="false"></i> 
+      </button>
+      <button type="button" ng-disabled = "!canPlay" aria-label="play" ng-show='!track.isPlaying' class="btn btn-default" ng-click="play()">
+        <i class="glyphicon glyphicon-play" aria-hidden="false"></i> 
+      </button>
+
+      <button type="button" ng-disabled = "!canPlay" aria-label="pause" ng-show='track.isPlaying' class="btn btn-default" ng-click="pause()">
+        <i class="glyphicon glyphicon-pause" aria-hidden="false"></i> 
+      </button>
+
+      <button type="button" ng-disabled = "!canPlay" aria-label="next" class="btn btn-default" ng-click="next()">
+        <i class="glyphicon glyphicon-step-forward" aria-hidden="false"></i> 
+      </button>
+
+    </div>
+
+    <div class="col-xs-5 col-sm-8">
+      <h4>{{track.title}}</h4>
+      <span>{{track.artist.join(", ")}}</span>
+    </div>
+
+  </div>
+  <div class="row">
+      <div class = "col-xs-8 col-sm-9 col-lg-9 vcenter">
+        <div  class="ui-slider-sm" ui-slider min="0" use-decimals step="0.1" max="100" ng-model = "timerValue">
+
+        </div>        
+      </div>
+
+      <div class = "col-xs-2 col-sm-1 col-lg-1 vcenter">
+        <span class="badge" ng-hide = "!canPlay" >{{elapsed}}/{{duration}}</span>
+      </div>
+    </div>
+</div>
+
+<hr/>
+</div>
+
+<!-- 
+<div class="navbar navbar-default navbar-inverse" ng-controller="NavbarCtrl">
+  <div class="container container-fluid">
+    <div class="navbar-header"> -->
+
+     <!--  <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button> -->
+      <!-- <a href="/" class="navbar-brand">AML</a> -->
+      
+
+<!-- 
+    </div>
+   
+    <div class="nav navbar-nav">
+      <h4>Title</h4>         
+    </div> -->
+   <!--  <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+      <ul class="nav navbar-nav">
+        <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
+            <a ng-href="{{item.link}}">{{item.title}}</a>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Setting <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="op in options" ng-class="{active: isActive(item.link)}">
+                  <a ng-href="{{op.link}}">{{op.title}}</a>
+              </li>
+          </ul>
+        </li>
+
+      </ul>
+
+    </div> -->
+<!--   </div>
+</div>
+ -->
