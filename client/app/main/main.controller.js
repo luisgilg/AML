@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('amlApp')
-  .controller('MainCtrl', ['$scope','playerFactory','trackFactory', 
-    function ($scope, playerFactory,trackFactory) {
+  .controller('MainCtrl', ['$scope','playerFactory','trackFactory','$timeout', 
+    function ($scope, playerFactory,trackFactory,$timeout) {
     
+
 
     playerFactory
     .onChange(function(status){
@@ -22,7 +23,21 @@ angular.module('amlApp')
     $scope.pauseMe=function(item){
       return playerFactory.pause();
     }
+    $scope.toogleMe=function(item){
+      if (item.isPlaying) {
+        return playerFactory.pause();
+      };
+      return playerFactory.loadTrack(item);
+    }
 
+    $scope.loadMore=function(){
+      $scope.isBusy = true;
+      
+      return $timeout(function(){
+        $scope.isBusy=false;
+        $scope.allItems = true;       
+      },10000);
+    }
     /*$scope.awesomeThings = [];
 
     $http.get('/api/things').success(function(awesomeThings) {

@@ -57,3 +57,11 @@
   height: 10px;
   width: 20px;
 }
+
+body { padding-top: 70px; }
+
+.trackAction
+{
+    position: absolute;
+    z-index: 2;
+}

@@ -1,49 +1,70 @@
-<div ng-controller="NavbarCtrl">
-<div class="container">
-  <audio id="audioElement" ng-hide="true" controls preload="none">
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavbarCtrl">
+  <div class="container-fluid">
+     
+     <div class="navbar-header hidden-xs">
+      <a class="navbar-brand" href="#">
+        AML
+      </a>
+     </div>
+
     
-  </audio>
-  <div class="row">
-    <div class="btn-group btn-group-sm navbar-brand col-xs-5 col-sm-2" aria-label="player actions" role="group">
+    <div class="navbar-collapse">
+      <audio id="audioElement" ng-hide="true" controls preload="none">    
+      </audio>
 
-      <button type="button" ng-disabled = "!canPlay" aria-label="prev" class="btn btn-default" ng-click="prev()">
-        <i class="glyphicon glyphicon-step-backward" aria-hidden="false"></i> 
-      </button>
-      <button type="button" ng-disabled = "!canPlay" aria-label="play" ng-show='!track.isPlaying' class="btn btn-default" ng-click="play()">
-        <i class="glyphicon glyphicon-play" aria-hidden="false"></i> 
-      </button>
+      <div class="navbar-left">
+          <div class="btn-group btn-group-sm navbar-left" aria-label="player actions" role="group">
 
-      <button type="button" ng-disabled = "!canPlay" aria-label="pause" ng-show='track.isPlaying' class="btn btn-default" ng-click="pause()">
-        <i class="glyphicon glyphicon-pause" aria-hidden="false"></i> 
-      </button>
+            <button type="button" ng-disabled = "!canPlay" aria-label="prev" class="btn btn-default btn-xs btn-sm btn-lg navbar-btn" ng-click="prev()">
+              <i class="glyphicon glyphicon-step-backward" aria-hidden="false"></i> 
+            </button>
+            <button type="button" ng-disabled = "!canPlay" aria-label="play" ng-show='!track.isPlaying' class="btn btn-default btn-xs btn-sm btn-lg navbar-btn" ng-click="play()">
+              <i class="glyphicon glyphicon-play" aria-hidden="false"></i> 
+            </button>
 
-      <button type="button" ng-disabled = "!canPlay" aria-label="next" class="btn btn-default" ng-click="next()">
-        <i class="glyphicon glyphicon-step-forward" aria-hidden="false"></i> 
-      </button>
+            <button type="button" ng-disabled = "!canPlay" aria-label="pause" ng-show='track.isPlaying' class="btn btn-default  btn-xs btn-sm btn-lg navbar-btn" ng-click="pause()">
+              <i class="glyphicon glyphicon-pause" aria-hidden="false"></i> 
+            </button>
+
+            <button type="button" ng-disabled = "!canPlay" aria-label="next" class="btn btn-default btn-xs btn-sm btn-lg navbar-btn" ng-click="next()">
+              <i class="glyphicon glyphicon-step-forward" aria-hidden="false"></i> 
+            </button>
+
+          </div>
+          <div class="navbar-text navbar-left hidden-xs">
+            &nbsp;
+          </div>
+
+          <div class="navbar-left">
+            <strong>{{track.title}}</strong>
+            <div class="clearfix"></div>
+            <small>{{track.artist.join(", ")}}</small>
+          </div>
+
+        
+
+      </div>
+      
+      <p class="navbar-text navbar-right" ng-hide = "!canPlay" ><strong>{{elapsed}} / {{duration}}</strong></p>
+      
+
+    
+
 
     </div>
 
-    <div class="col-xs-5 col-sm-8">
-      <h4>{{track.title}}</h4>
-      <span>{{track.artist.join(", ")}}</span>
-    </div>
 
-  </div>
-  <div class="row">
-      <div class = "col-xs-8 col-sm-9 col-lg-9 vcenter">
-        <div  class="ui-slider-sm" ui-slider min="0" use-decimals step="0.1" max="100" ng-model = "timerValue">
+    <div class="row hidden-xs">
+        <div class = "col-xs-12 col-sm-12 col-lg-12">
+          <div  id="timerSlider" class="ui-slider-sm" ui-slider min="0" use-decimals step="0.1" max="100" ng-model = "timerValue">
 
+          </div>        
         </div>        
       </div>
+  </div>
 
-      <div class = "col-xs-2 col-sm-1 col-lg-1 vcenter">
-        <span class="badge" ng-hide = "!canPlay" >{{elapsed}}/{{duration}}</span>
-      </div>
-    </div>
-</div>
 
-<hr/>
-</div>
+</nav>
 
 <!-- 
 <div class="navbar navbar-default navbar-inverse" ng-controller="NavbarCtrl">

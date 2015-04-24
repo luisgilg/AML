@@ -9,6 +9,26 @@ angular.module('amlApp')
     var _onTimeUpdateArray = [];
 
     var _audioElement =  angular.element("#audioElement");
+
+    var _timerSlider = angular.element("#timerSlider");
+
+    var _isTimerPress = false;
+
+    // _timerSlider.bind('mousedown',function(){
+    //   _isTimerPress=true;
+    // });
+
+    // _timerSlider.bind('mouseup',function(){
+    //   _isTimerPress=false;
+    //   var value = _timerSlider.slider("option", "value");
+    
+    //   var tVal = (value * _progress.duration)/100;
+
+
+    //   _audioElement[0].currentTime = tVal;
+
+    // });
+
     
     var _progress = {
       elapsed:0,
@@ -40,6 +60,7 @@ angular.module('amlApp')
     }
 
     _audioElement.bind("timeupdate", function() {
+      //if(_isTimerPress){return;}
       _progress.elapsed = parseFloat(this.currentTime);
       _progress.duration = parseFloat(this.duration);     
       return _onTimeUpdate(_progress);
@@ -62,12 +83,15 @@ angular.module('amlApp')
     
     var _toogle = function(){
       _status.isPlaying = !_status.isPlaying;
-      if (_currentTrack) {
+      if (!_currentTrack) { return this;}
         _currentTrack.isPlaying = _status.isPlaying;
-      };
+
+        return this;
     }
 
     var _timeUpdate = function(){
+      //if (_isTimerPress) {return;};
+      
       _progress.elapsed += 0.1;
       return _onTimeUpdate(_progress); 
     }
@@ -99,7 +123,7 @@ angular.module('amlApp')
         .setStatus({canPlay:false});
 
         _audioElement.html('');
-        _audioElement.append('<source src="http://localhost:9000/api/track/stream/' + track._id + '" type="audio/mpeg">')
+        _audioElement.append('<source src="http://' + window.location.host + '/api/track/stream/' + track._id + '" type="audio/mpeg">')
 
         _currentTrack = track;
         if (track.duration) {

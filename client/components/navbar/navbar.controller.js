@@ -14,12 +14,8 @@ angular.module('amlApp')
     .onTimeUpdate(function(progress){
       $scope.elapsed = progress.elapsedString();
       $scope.duration = progress.durationString();
-
-      //d --- 100
-      //e --- x
-      // x= (e*100)/d
       $scope.timerValue = progress.elapsedPercent();
-
+      
     })
     .onLoadTrack(function(track){      
       $scope.track = track;      

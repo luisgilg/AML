@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var Schema = mongoose.Schema;
 
-var PlayListTypeArray = ['normal','intelligent'];
+var PlayListTypeArray = ['normal','intelligent','tags','folder'];
 
 var TrackSchema = new Schema({
 	title : { type : String },
@@ -26,7 +26,6 @@ var TrackSchema = new Schema({
 	band : { type : String },
 	rating : { type : String },
 	
-	newAttr : { type : Number },
 	compilation : { type : String },
 	composer : { type : String },
 	newAttr : { type : Number },
@@ -54,6 +53,8 @@ var PlayListSchema = new Schema({
 	ctime : { type : Date },
 	type : { type : String, enum : PlayListTypeArray },
 	tracks : [{ type : Schema.ObjectId, ref : 'Track' }],
+	parent : { type : Schema.ObjectId, ref : 'PlayList' },
+	childs : [{ type : Schema.ObjectId, ref : 'PlayList' }],
 	filters : [{ type : Schema.ObjectId, ref : 'IntelligentFilter' }]
 });
 

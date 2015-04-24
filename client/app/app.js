@@ -6,7 +6,8 @@ angular.module('amlApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
-  'ui.slider'
+  'ui.slider',
+  'infinite-scroll'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider
